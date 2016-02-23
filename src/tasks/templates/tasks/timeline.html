@@ -1,0 +1,41 @@
+{% extends "tasks/page_template.html" %}
+{% load event_glyphicon_style from task_extras %}
+{% load event_summary from task_extras %}
+{% load event_user from task_extras %}
+
+{% block title %}Timeline{% endblock %}
+
+{% block modal %}
+
+<div id="dialog-3"></div>
+
+{% endblock %}
+
+{% block content %}
+	<div id="page-content-wrapper">
+		<div class="page-header">
+   					<h2><span class="glyphicon glyphicon-time"></span> Timeline</h2>
+		</div>
+		{% for event_group in object_list %}
+			<div class="bs-callout bs-callout-primary">
+				<table class="table table-hover container-fluid">
+					<thead>
+						<tr class="row">
+							<th class="col-md-3"><span class="glyphicon glyphicon-calendar"></span> {{event_group.0.date_created|date:"d M Y"}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for event in event_group %}
+							<tr class="row">
+								<td class='clickableRow col-md-1' id="{{event.pk}}"><span class="glyphicon {{event|event_glyphicon_style}}"></span> {{event.geteventkind}}</td>
+								<td class='clickableRow col-md-8' id="{{event.pk}}">{{event|event_summary}}</td>
+								<td class="col-md-2">{{event|event_user}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endfor %}
+	</div>
+		
+{% endblock %}
